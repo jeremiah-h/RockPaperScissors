@@ -1,5 +1,9 @@
 package rockpaperscissors;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 public class rockpaperscissors {
@@ -18,7 +22,10 @@ public class rockpaperscissors {
             String output = "You chose " + playerChoice +
                     "\nThe computer chose " + compChoice + "\n";
             
-            String winner = getWinner(playerChoice,compChoice);
+	    Map<String,String> players = new LinkedHashMap<String, String>();
+	    players.put("player", playerChoice);
+	    players.put("comp", compChoice);
+	    String winner = getWinner(players);
 
             if (winner.equals("tie")) {
                 output += "It's a tie!";
@@ -85,34 +92,19 @@ public class rockpaperscissors {
         return(compChoice);
     }
 
-    public static String getWinner(String player, String comp) {
-        String winner;
-
-        if (player.equals("rock")) {
-            if (comp.equals("rock")) {
-                winner = "tie";
-            } else if (comp.equals("paper")) {
-                winner = "computer";
-            } else {
-                winner = "player";
-            }
-        } else if (player.equals("paper")) {
-            if (comp.equals("rock")) {
-                winner = "player";
-            } else if (comp.equals("paper")) {
-                winner = "tie";
-            } else {
-                winner = "computer";
-            }
-        } else {
-            if (comp.equals("rock")) {
-                winner = "computer";
-            } else if (comp.equals("paper")) {
-                winner = "player";
-            } else {
-                winner = "tie";
-            }
-        }
-        return(winner);
+    public static String getWinner(Map<String, String> players){
+      Set<String> winning = new LinkedHashSet<String>();
+      winning.add("rs");
+      winning.add("sp");
+      winning.add("pr");
+      String pl = players.get("player").substring(0,1);
+      String co = players.get("comp").substring(0, 1);
+      if(winning.contains(pl.concat(co))){
+	return "player";
+      }else if(winning.contains(co.concat(pl))){
+	return "computer";
+      }else{
+	return "tie";
+      }
     }
 }
